@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة التقييمات | حلواني بندق</title>
+    <!-- استدعاء خط Cairo من جوجل -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- استدعاء مكتبة الأيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #5D4037; /* لون بني بندقي */
+            --secondary-color: #E2B121; /* لون أصفر مستردة */
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --shadow: 0 10px 20px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--card-bg);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.04);
+            border-bottom: 4px solid var(--secondary-color);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--secondary-color);
+            /* قم بتغيير الرابط التالي برابط لوجو بندق الفعلي */
+            background-image: url('https://via.placeholder.com/60/E2B121/5D4037?text=B'); 
+            background-size: cover;
+        }
+
+        .header-title h1 {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: 800;
+        }
+
+        .header-title p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .user-profile i {
+            font-size: 24px;
+            color: var(--secondary-color);
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            font-size: 22px;
+            color: var(--primary-color);
+            position: relative;
+            padding-right: 15px;
+        }
+
+        .section-header h2::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 5px;
+            height: 80%;
+            width: 5px;
+            background-color: var(--secondary-color);
+            border-radius: 5px;
+        }
+
+        /* Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-decoration: none;
+            display: block;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--secondary-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            background-color: rgba(226, 177, 33, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            color: var(--primary-color);
+            font-size: 28px;
+            transition: var(--transition);
+        }
+
+        .card:hover .card-icon {
+            background-color: var(--secondary-color);
+            color: #fff;
+        }
+
+        .card h3 {
+            font-size: 20px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-light);
+            font-size: 14px;
+            background-color: var(--card-bg);
+            border-top: 1px solid #eee;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+                padding: 20px;
+            }
+            .logo-container {
+                flex-direction: column;
+            }
+            main {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <!-- استبدل رابط الصورة برابط لوجو بندق -->
+            <img src="https://via.placeholder.com/60/E2B121/5D4037?text=B" alt="لوجو حلواني بندق" class="logo">
+            <div class="header-title">
+                <h1>حلواني بندق</h1>
+                <p>لوحة تحكم تقييمات الإدارة</p>
+            </div>
+        </div>
+        <div class="user-profile">
+            <i class="fa-solid fa-user-tie"></i>
+            <span>بوابة المدير</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="section-header">
+            <h2>نماذج التقييم والمتابعة</h2>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- كارت خدمة العملاء -->
+            <!-- استبدل # برابط جوجل فورم الخاص بخدمة العملاء -->
+            <a href="#" target="_blank" class="card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-headset"></i>
+                </div>
+                <h3>قسم خدمة العملاء</h3>
+                <p>تقييم أداء موظفي خدمة العملاء ومتابعة الشكاوى والاستفسارات.</p>
+            </a>
+
+            <!-- كارت قسم الميديا -->
+            <!-- استبدل # برابط جوجل فورم الخاص بالميديا -->
+            <a href="#" target="_blank" class="card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                <h3>قسم الميديا والتسويق</h3>
+                <p>تقييم صناع المحتوى، التصميمات، وجودة الحملات الإعلانية.</p>
+            </a>
+
+            <!-- كارت قطاع الدليفري -->
+            <!-- استبدل # برابط جوجل فورم الخاص بالدليفري -->
+            <a href="#" target="_blank" class="card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-motorcycle"></i>
+                </div>
+                <h3>قطاع الدليفري</h3>
+                <p>تقييم سرعة التوصيل، التزام الطيارين، وحالة الطلبات.</p>
+            </a>
+
+            <!-- كارت تقييمات العملاء العامة -->
+            <!-- استبدل # برابط جوجل فورم الخاص بتقييمات العملاء -->
+            <a href="#" target="_blank" class="card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h3>تقييمات العملاء</h3>
+                <p>استعراض آراء العملاء المباشرة حول جودة المنتجات والفروع.</p>
+            </a>
+            
+            <!-- كارت الفروع والإنتاج (إضافي لتغطية احتياجات المصنع والفروع) -->
+            <!-- استبدل # برابط جوجل فورم الخاص بالفروع -->
+            <a href="#" target="_blank" class="card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-shop"></i>
+                </div>
+                <h3>إدارة الفروع والمصنع</h3>
+                <p>تقييم جودة الإنتاج، الالتزام بالمعايير، وأداء مديري الفروع.</p>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 جميع الحقوق محفوظة | إدارة حلواني بندق</p>
+    </footer>
+
+</body>
+</html>
