@@ -22,20 +22,10 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-dark); min-height: 100vh; }
 
-        /* شاشة التحميل للبيانات المباشرة من الشيت */
-        #loading-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--card-bg); z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-        .spinner {
-            width: 50px; height: 50px; border: 5px solid rgba(226, 177, 33, 0.3);
-            border-top: 5px solid var(--secondary-color); border-radius: 50%;
-            animation: spin 1s linear infinite; margin-bottom: 20px;
-        }
+        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--card-bg); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .spinner { width: 50px; height: 50px; border: 5px solid rgba(226, 177, 33, 0.3); border-top: 5px solid var(--secondary-color); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* شاشة تسجيل الدخول */
         .login-wrapper { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; background: linear-gradient(135deg, #5D4037 0%, #3E2723 100%); }
         .login-card { background-color: var(--card-bg); border-radius: 20px; width: 100%; max-width: 420px; padding: 40px 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; border-top: 5px solid var(--secondary-color); }
         .login-logo { width: 90px; height: 90px; border-radius: 50%; margin-bottom: 20px; border: 3px solid var(--secondary-color); background-image: url('https://bondokpatisserie.com/wp-content/uploads/2023/09/%D9%84%D9%88%D8%AC%D9%88_%D8%A8%D9%86%D8%AF%D9%82-1.webp'); background-size: cover; background-position: center; display: inline-block; background-color: #fff; }
@@ -51,7 +41,6 @@
         .btn-login:hover { background-color: #4E342E; transform: translateY(-2px); }
         .error-message { color: var(--danger-color); font-size: 13px; font-weight: 600; margin-top: 15px; display: none; background-color: #fde8e7; padding: 10px; border-radius: 8px; border: 1px solid rgba(231, 76, 60, 0.2); }
 
-        /* لوحة التحكم */
         #dashboard-content { display: none; flex-direction: column; min-height: 100vh; }
         header { background-color: var(--card-bg); padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 15px rgba(0,0,0,0.04); border-bottom: 4px solid var(--secondary-color); }
         .logo-container { display: flex; align-items: center; gap: 15px; }
@@ -64,7 +53,8 @@
         .section-header { margin-bottom: 30px; margin-top: 40px; }
         .section-header h2 { font-size: 22px; color: var(--primary-color); position: relative; padding-right: 15px; }
         .section-header h2::before { content: ''; position: absolute; right: 0; top: 5px; height: 80%; width: 5px; background-color: var(--secondary-color); border-radius: 5px; }
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
         .branches-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
         
         .card { background-color: var(--card-bg); border-radius: 15px; padding: 30px 25px; text-align: center; box-shadow: var(--shadow); transition: var(--transition); text-decoration: none; display: block; position: relative; overflow: hidden; border: 1px solid rgba(0,0,0,0.01); cursor: pointer; }
@@ -74,9 +64,7 @@
         .card-icon { width: 70px; height: 70px; background-color: rgba(226, 177, 33, 0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 20px; color: var(--primary-color); font-size: 28px; transition: var(--transition); }
         .card:hover .card-icon { background-color: var(--secondary-color); color: #fff; }
         .card h3 { font-size: 20px; color: var(--text-dark); margin-bottom: 10px; }
-        .card p { font-size: 14px; color: var(--text-light); line-height: 1.6; }
 
-        /* النوافذ المنبثقة */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: none; justify-content: center; align-items: center; z-index: 1000; }
         .modal-box { background-color: var(--card-bg); padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; animation: fadeIn 0.3s ease; }
         .roles-modal-box { max-width: 600px; }
@@ -97,7 +85,6 @@
 </head>
 <body>
 
-    <!-- شاشة التحميل -->
     <div id="loading-overlay">
         <div class="spinner"></div>
         <h3 style="color: var(--primary-color);">جاري الاتصال بقاعدة البيانات...</h3>
@@ -124,7 +111,7 @@
         </div>
     </div>
 
-    <!-- محتوى لوحة التحكم -->
+    <!-- لوحة التحكم -->
     <div id="dashboard-content">
         <header>
             <div class="logo-container">
@@ -135,119 +122,92 @@
         </header>
 
         <main>
-            <div class="section-header" style="margin-top: 0;"><h2>قسم الحسابات</h2></div>
-            <div class="dashboard-grid">
-                <a href="#" target="_blank" class="card" id="link-accounting">
-                    <div class="card-icon"><i class="fa-solid fa-calculator"></i></div>
-                    <h3>تقييم محاسب</h3>
-                    <p>تقييم الأداء المالي والمحاسبي والالتزام بالدورة المستندية.</p>
-                </a>
-            </div>
+            <!-- الأقسام الرئيسية الديناميكية -->
+            <div class="section-header" style="margin-top: 0;"><h2>إدارة الأقسام الرئيسية</h2></div>
+            <div class="dashboard-grid" id="departments-container"></div>
 
-            <div class="section-header"><h2>نماذج التقييم والمتابعة للأقسام الأخرى</h2></div>
-            <div class="dashboard-grid">
-                <a href="#" target="_blank" class="card" id="link-cs">
-                    <div class="card-icon"><i class="fa-solid fa-headset"></i></div>
-                    <h3>قسم خدمة العملاء</h3>
-                    <p>تقييم أداء موظفي خدمة العملاء ومتابعة الشكاوى.</p>
-                </a>
-                <a href="#" target="_blank" class="card" id="link-media">
-                    <div class="card-icon"><i class="fa-solid fa-bullhorn"></i></div>
-                    <h3>قسم الميديا والتسويق</h3>
-                    <p>تقييم صناع المحتوى وجودة الحملات الإعلانية.</p>
-                </a>
-                <a href="#" target="_blank" class="card" id="link-delivery">
-                    <div class="card-icon"><i class="fa-solid fa-motorcycle"></i></div>
-                    <h3>قطاع الدليفري</h3>
-                    <p>تقييم سرعة التوصيل والتزام الطيارين.</p>
-                </a>
-                <a href="#" target="_blank" class="card" id="link-feedback">
-                    <div class="card-icon"><i class="fa-solid fa-star"></i></div>
-                    <h3>تقييمات العملاء</h3>
-                    <p>استعراض آراء العملاء المباشرة حول الجودة.</p>
-                </a>
-            </div>
-
-            <div class="section-header"><h2>تقييمات الفروع (للمديرين فقط)</h2></div>
-            <div class="dashboard-grid branches-grid" id="branches-container">
-                <!-- سيتم حقن الفروع هنا ديناميكياً من الشيت -->
-            </div>
+            <!-- الفروع الديناميكية -->
+            <div class="section-header"><h2>إدارة وتقييمات الفروع</h2></div>
+            <div class="dashboard-grid branches-grid" id="branches-container"></div>
         </main>
         <footer><p>&copy; 2026 جميع الحقوق محفوظة | إدارة حلواني بندق</p></footer>
     </div>
 
-    <!-- نافذة الرقم السري للفرع -->
-    <div id="branch-modal" class="modal-overlay">
+    <!-- نافذة طلب الرقم السري الموحدة -->
+    <div id="auth-modal" class="modal-overlay">
         <div class="modal-box">
-            <i class="fa-solid fa-xmark close-modal" onclick="closeBranchModal()"></i>
-            <h3 id="modal-branch-title">اسم الفرع</h3>
-            <p style="color: var(--text-light); font-size: 13px; margin-bottom: 20px;">الرجاء إدخال الرقم السري الخاص بالفرع للوصول إلى التقييمات.</p>
-            <form id="branchForm" onsubmit="verifyBranchPassword(event)">
+            <i class="fa-solid fa-xmark close-modal" onclick="closeAuthModal()"></i>
+            <h3 id="auth-title">اسم القسم/الفرع</h3>
+            <p style="color: var(--text-light); font-size: 13px; margin-bottom: 20px;">الرجاء إدخال الرقم السري للوصول إلى النماذج.</p>
+            <form onsubmit="verifyPassword(event)">
                 <div class="form-group" style="margin-bottom: 15px;">
-                    <div class="input-icon-wrapper"><i class="fa-solid fa-key"></i><input type="password" id="branch-password" placeholder="الرقم السري للفرع" required></div>
+                    <div class="input-icon-wrapper"><i class="fa-solid fa-key"></i><input type="password" id="auth-password" placeholder="الرقم السري" required></div>
                 </div>
                 <button type="submit" class="btn-login" style="background-color: var(--secondary-color); color: #fff;">تحقق من الرمز</button>
-                <div id="branch-error-msg" class="error-message"></div>
+                <div id="auth-error-msg" class="error-message"></div>
             </form>
         </div>
     </div>
 
-    <!-- نافذة تبويبات الموظفين -->
+    <!-- نافذة التبويبات والوظائف الموحدة -->
     <div id="roles-modal" class="modal-overlay">
         <div class="modal-box roles-modal-box">
             <i class="fa-solid fa-xmark close-modal" onclick="closeRolesModal()"></i>
-            <h3 id="roles-branch-title">تقييمات موظفي الفرع</h3>
-            <p style="color: var(--text-light); font-size: 13px;">اختر المسمى الوظيفي للموظف المراد تقييمه</p>
-            <div class="roles-grid">
-                <a href="#" target="_blank" class="role-btn" id="role-manager"><i class="fa-solid fa-user-tie"></i> مدير فرع</a>
-                <a href="#" target="_blank" class="role-btn" id="role-assistant"><i class="fa-solid fa-user-gear"></i> مساعد فرع</a>
-                <a href="#" target="_blank" class="role-btn" id="role-supervisor"><i class="fa-solid fa-user-check"></i> مشرف فرع</a>
-                <a href="#" target="_blank" class="role-btn" id="role-receiver"><i class="fa-solid fa-headset"></i> متلقي</a>
-                <a href="#" target="_blank" class="role-btn" id="role-sales"><i class="fa-solid fa-handshake"></i> مندوب بيع</a>
-                <a href="#" target="_blank" class="role-btn" id="role-pilot"><i class="fa-solid fa-motorcycle"></i> الطيار</a>
-            </div>
+            <h3 id="roles-title">نماذج التقييم</h3>
+            <p style="color: var(--text-light); font-size: 13px;">اختر النموذج أو المسمى الوظيفي المطلوب</p>
+            <div class="roles-grid" id="roles-container"></div>
         </div>
     </div>
 
     <script>
         // ==========================================
-        // 🔴 ضع الرابط الذي نسخته من Google Apps Script هنا
+        // 🔴 ضع الرابط هنا
         // ==========================================
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx7fjGJs2NXssFRAblaacNYdfoUFgWlMqeeAwu9ubrxBGbdCU0nAXDVLdbEGlcGde4E/exec";
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwZmxbIg7fC5fPNUd3CL5lgw2nxFXxkzt2Vk61QCR2XpxudkA79Y-t7iw4Ixc2IEiq7/exec";
         
-        let branchesData = {};
+        let sysData = { departments: {}, branches: {} };
+        let currentAuthType = null;
+        let currentAuthId = null;
 
-        // جلب البيانات من الشيت عند تحميل الصفحة
+        // ثوابت أيقونات وظائف الفروع
+        const branchRolesConfig = {
+            manager: { name: "مدير فرع", icon: "fa-user-tie" },
+            assistant: { name: "مساعد فرع", icon: "fa-user-gear" },
+            supervisor: { name: "مشرف فرع", icon: "fa-user-check" },
+            receiver: { name: "متلقي", icon: "fa-headset" },
+            sales: { name: "مندوب بيع", icon: "fa-handshake" },
+            pilot: { name: "الطيار", icon: "fa-motorcycle" }
+        };
+
         window.onload = async function() {
             try {
                 const response = await fetch(WEB_APP_URL);
-                const data = await response.json();
+                sysData = await response.json();
                 
-                // 1. تعيين الروابط الرئيسية
-                if(data.mainLinks) {
-                    if(data.mainLinks.accounting) document.getElementById('link-accounting').href = data.mainLinks.accounting;
-                    if(data.mainLinks.cs) document.getElementById('link-cs').href = data.mainLinks.cs;
-                    if(data.mainLinks.media) document.getElementById('link-media').href = data.mainLinks.media;
-                    if(data.mainLinks.delivery) document.getElementById('link-delivery').href = data.mainLinks.delivery;
-                    if(data.mainLinks.feedback) document.getElementById('link-feedback').href = data.mainLinks.feedback;
+                // رسم الأقسام الرئيسية
+                const deptsContainer = document.getElementById('departments-container');
+                deptsContainer.innerHTML = '';
+                for (const id in sysData.departments) {
+                    const dept = sysData.departments[id];
+                    deptsContainer.innerHTML += `
+                        <div class="card" onclick="openAuthModal('dept', '${id}')">
+                            <div class="card-icon"><i class="fa-solid ${dept.icon}"></i></div>
+                            <h3>${dept.name}</h3>
+                        </div>`;
                 }
 
-                // 2. تعيين بيانات الفروع ورسم الكروت ديناميكياً
-                branchesData = data.branchesData;
+                // رسم الفروع
                 const branchesContainer = document.getElementById('branches-container');
-                branchesContainer.innerHTML = ''; // تفريغ الحاوية
-                
-                for (const branchId in branchesData) {
-                    const branch = branchesData[branchId];
+                branchesContainer.innerHTML = '';
+                for (const id in sysData.branches) {
+                    const branch = sysData.branches[id];
                     branchesContainer.innerHTML += `
-                        <div class="card" onclick="openBranchModal('${branchId}')">
+                        <div class="card" onclick="openAuthModal('branch', '${id}')">
                             <div class="card-icon"><i class="fa-solid fa-shop"></i></div>
                             <h3>${branch.name}</h3>
-                        </div>
-                    `;
+                        </div>`;
                 }
 
-                // إخفاء شاشة التحميل وإظهار الشاشة المناسبة (الدخول أو الداش بورد)
                 document.getElementById('loading-overlay').style.display = 'none';
                 if (sessionStorage.getItem("isAdminLoggedIn") === "true") {
                     document.getElementById("dashboard-content").style.display = "flex";
@@ -256,26 +216,21 @@
                 }
 
             } catch (error) {
-                console.error("خطأ في جلب البيانات:", error);
-                document.getElementById('loading-overlay').innerHTML = '<h3 style="color:red;">حدث خطأ في الاتصال بقاعدة البيانات. تأكد من صحة الرابط.</h3>';
+                console.error(error);
+                document.getElementById('loading-overlay').innerHTML = '<h3 style="color:red;">تأكد من وضع رابط الـ Web App الصحيح.</h3>';
             }
         };
 
-        // --- إدارة تسجيل الدخول ---
         function handleLogin(event) {
             event.preventDefault();
-            const userInp = document.getElementById("username").value.trim();
-            const passInp = document.getElementById("password").value.trim();
-            const errorDiv = document.getElementById("error-msg");
-
-            if (userInp === "admin" && passInp === "54321") {
+            if (document.getElementById("username").value.trim() === "admin" && document.getElementById("password").value.trim() === "54321") {
                 sessionStorage.setItem("isAdminLoggedIn", "true");
-                errorDiv.style.display = "none";
+                document.getElementById("error-msg").style.display = "none";
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("dashboard-content").style.display = "flex";
             } else {
-                errorDiv.style.display = "block";
-                errorDiv.innerText = "خطأ في اسم المستخدم أو كلمة المرور.";
+                document.getElementById("error-msg").style.display = "block";
+                document.getElementById("error-msg").innerText = "بيانات الدخول غير صحيحة.";
             }
         }
 
@@ -284,54 +239,63 @@
             window.location.reload(); 
         }
 
-        // --- إدارة الفروع ---
-        let currentSelectedBranch = null;
-
-        function openBranchModal(branchId) {
-            currentSelectedBranch = branchId;
-            document.getElementById('modal-branch-title').innerText = branchesData[branchId].name;
-            document.getElementById('branch-password').value = '';
-            document.getElementById('branch-error-msg').style.display = 'none';
-            document.getElementById('branch-modal').style.display = 'flex';
+        // --- إدارة النوافذ والأرقام السرية ---
+        function openAuthModal(type, id) {
+            currentAuthType = type;
+            currentAuthId = id;
+            const targetData = type === 'dept' ? sysData.departments[id] : sysData.branches[id];
+            
+            document.getElementById('auth-title').innerText = targetData.name;
+            document.getElementById('auth-password').value = '';
+            document.getElementById('auth-error-msg').style.display = 'none';
+            document.getElementById('auth-modal').style.display = 'flex';
         }
 
-        function closeBranchModal() {
-            document.getElementById('branch-modal').style.display = 'none';
+        function closeAuthModal() {
+            document.getElementById('auth-modal').style.display = 'none';
         }
 
-        function verifyBranchPassword(event) {
+        function verifyPassword(event) {
             event.preventDefault();
-            const enteredPass = document.getElementById('branch-password').value.trim();
-            const branchErrorDiv = document.getElementById('branch-error-msg');
-            const correctPass = branchesData[currentSelectedBranch].password;
+            const enteredPass = document.getElementById('auth-password').value.trim();
+            const errorDiv = document.getElementById('auth-error-msg');
+            const targetData = currentAuthType === 'dept' ? sysData.departments[currentAuthId] : sysData.branches[currentAuthId];
 
-            if (enteredPass === correctPass) {
-                branchErrorDiv.style.display = 'none';
-                closeBranchModal();
-                openRolesModal(currentSelectedBranch);
+            if (enteredPass === targetData.password) {
+                errorDiv.style.display = 'none';
+                closeAuthModal();
+                openRolesModal();
             } else {
-                branchErrorDiv.style.display = 'block';
-                branchErrorDiv.innerText = "الرقم السري غير صحيح، يرجى المحاولة مرة أخرى.";
+                errorDiv.style.display = 'block';
+                errorDiv.innerText = "الرقم السري غير صحيح.";
             }
         }
 
-        function openRolesModal(branchId) {
-            const branchInfo = branchesData[branchId];
-            document.getElementById('roles-branch-title').innerText = "تقييمات موظفي " + branchInfo.name;
-            
-            document.getElementById('role-manager').href = branchInfo.links.manager;
-            document.getElementById('role-assistant').href = branchInfo.links.assistant;
-            document.getElementById('role-supervisor').href = branchInfo.links.supervisor;
-            document.getElementById('role-receiver').href = branchInfo.links.receiver;
-            document.getElementById('role-sales').href = branchInfo.links.sales;
-            document.getElementById('role-pilot').href = branchInfo.links.pilot;
+        function openRolesModal() {
+            const container = document.getElementById('roles-container');
+            container.innerHTML = '';
+
+            if (currentAuthType === 'dept') {
+                const dept = sysData.departments[currentAuthId];
+                document.getElementById('roles-title').innerText = "نماذج: " + dept.name;
+                dept.roles.forEach(role => {
+                    container.innerHTML += `<a href="${role.link}" target="_blank" class="role-btn"><i class="fa-solid fa-file-signature"></i> ${role.name}</a>`;
+                });
+            } else {
+                const branch = sysData.branches[currentAuthId];
+                document.getElementById('roles-title').innerText = "تقييمات موظفي: " + branch.name;
+                for (const roleKey in branchRolesConfig) {
+                    const roleConfig = branchRolesConfig[roleKey];
+                    const roleLink = branch.links[roleKey];
+                    container.innerHTML += `<a href="${roleLink}" target="_blank" class="role-btn"><i class="fa-solid ${roleConfig.icon}"></i> ${roleConfig.name}</a>`;
+                }
+            }
 
             document.getElementById('roles-modal').style.display = 'flex';
         }
 
         function closeRolesModal() {
             document.getElementById('roles-modal').style.display = 'none';
-            currentSelectedBranch = null;
         }
     </script>
 </body>
