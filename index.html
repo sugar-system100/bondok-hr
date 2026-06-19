@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #5D4037; /* بني بندقي */
-            --secondary-color: #E2B121; /* أصفر مستردة */
+            --primary-color: #5D4037; 
+            --secondary-color: #E2B121; 
             --bg-color: #f4f6f9;
             --card-bg: #ffffff;
             --text-dark: #2c3e50;
@@ -19,424 +19,251 @@
             --transition: all 0.3s ease;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-dark); min-height: 100vh; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-dark);
-            min-height: 100vh;
+        /* شاشة التحميل للبيانات المباشرة من الشيت */
+        #loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--card-bg); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
+        .spinner {
+            width: 50px; height: 50px; border: 5px solid rgba(226, 177, 33, 0.3);
+            border-top: 5px solid var(--secondary-color); border-radius: 50%;
+            animation: spin 1s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* ------------------------------------- */
-        /* شاشة تسجيل الدخول (Login Screen) */
-        /* ------------------------------------- */
-        .login-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            background: linear-gradient(135deg, #5D4037 0%, #3E2723 100%);
-        }
+        /* شاشة تسجيل الدخول */
+        .login-wrapper { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; background: linear-gradient(135deg, #5D4037 0%, #3E2723 100%); }
+        .login-card { background-color: var(--card-bg); border-radius: 20px; width: 100%; max-width: 420px; padding: 40px 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; border-top: 5px solid var(--secondary-color); }
+        .login-logo { width: 90px; height: 90px; border-radius: 50%; margin-bottom: 20px; border: 3px solid var(--secondary-color); background-image: url('https://bondokpatisserie.com/wp-content/uploads/2023/09/%D9%84%D9%88%D8%AC%D9%88_%D8%A8%D9%86%D8%AF%D9%82-1.webp'); background-size: cover; background-position: center; display: inline-block; background-color: #fff; }
+        .login-card h2 { color: var(--primary-color); font-size: 22px; font-weight: 800; margin-bottom: 5px; }
+        .login-card p { color: var(--text-light); font-size: 14px; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; text-align: right; position: relative; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--primary-color); }
+        .input-icon-wrapper { position: relative; }
+        .input-icon-wrapper i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-light); font-size: 16px; }
+        .form-group input { width: 100%; padding: 12px 45px 12px 15px; border: 1.5px solid #e0e0e0; border-radius: 10px; font-size: 14px; outline: none; transition: var(--transition); text-align: right; }
+        .form-group input:focus { border-color: var(--secondary-color); box-shadow: 0 0 0 3px rgba(226, 177, 33, 0.15); }
+        .btn-login { width: 100%; padding: 12px; background-color: var(--primary-color); color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: var(--transition); margin-top: 10px; box-shadow: 0 4px 10px rgba(93, 64, 55, 0.2); }
+        .btn-login:hover { background-color: #4E342E; transform: translateY(-2px); }
+        .error-message { color: var(--danger-color); font-size: 13px; font-weight: 600; margin-top: 15px; display: none; background-color: #fde8e7; padding: 10px; border-radius: 8px; border: 1px solid rgba(231, 76, 60, 0.2); }
 
-        .login-card {
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            width: 100%;
-            max-width: 420px;
-            padding: 40px 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            text-align: center;
-            border-top: 5px solid var(--secondary-color);
-        }
+        /* لوحة التحكم */
+        #dashboard-content { display: none; flex-direction: column; min-height: 100vh; }
+        header { background-color: var(--card-bg); padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 15px rgba(0,0,0,0.04); border-bottom: 4px solid var(--secondary-color); }
+        .logo-container { display: flex; align-items: center; gap: 15px; }
+        .main-logo { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--secondary-color); background-image: url('https://bondokpatisserie.com/wp-content/uploads/2023/09/%D9%84%D9%88%D8%AC%D9%88_%D8%A8%D9%86%D8%AF%D9%82-1.webp'); background-size: cover; background-position: center; background-color: #fff; }
+        .header-title h1 { font-size: 24px; color: var(--primary-color); font-weight: 800; }
+        .header-title p { font-size: 14px; color: var(--text-light); }
+        .logout-btn { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--danger-color); cursor: pointer; background: none; border: none; font-size: 14px; padding: 8px 15px; border-radius: 8px; transition: var(--transition); }
+        .logout-btn:hover { background-color: #fde8e7; }
+        main { flex: 1; padding: 50px; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .section-header { margin-bottom: 30px; margin-top: 40px; }
+        .section-header h2 { font-size: 22px; color: var(--primary-color); position: relative; padding-right: 15px; }
+        .section-header h2::before { content: ''; position: absolute; right: 0; top: 5px; height: 80%; width: 5px; background-color: var(--secondary-color); border-radius: 5px; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .branches-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+        
+        .card { background-color: var(--card-bg); border-radius: 15px; padding: 30px 25px; text-align: center; box-shadow: var(--shadow); transition: var(--transition); text-decoration: none; display: block; position: relative; overflow: hidden; border: 1px solid rgba(0,0,0,0.01); cursor: pointer; }
+        .card::after { content: ''; position: absolute; bottom: 0; right: 0; width: 100%; height: 4px; background-color: var(--secondary-color); transform: scaleX(0); transform-origin: right; transition: var(--transition); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+        .card:hover::after { transform: scaleX(1); }
+        .card-icon { width: 70px; height: 70px; background-color: rgba(226, 177, 33, 0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 20px; color: var(--primary-color); font-size: 28px; transition: var(--transition); }
+        .card:hover .card-icon { background-color: var(--secondary-color); color: #fff; }
+        .card h3 { font-size: 20px; color: var(--text-dark); margin-bottom: 10px; }
+        .card p { font-size: 14px; color: var(--text-light); line-height: 1.6; }
 
-        .login-logo {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            margin-bottom: 20px;
-            border: 3px solid var(--secondary-color);
-            background-image: url('https://bondokpatisserie.com/wp-content/uploads/2023/09/%D9%84%D9%88%D8%AC%D9%88_%D8%A8%D9%86%D8%AF%D9%82-1.webp'); 
-            background-size: cover;
-            background-position: center;
-            display: inline-block;
-            background-color: #fff;
-        }
+        /* النوافذ المنبثقة */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .modal-box { background-color: var(--card-bg); padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; animation: fadeIn 0.3s ease; }
+        .roles-modal-box { max-width: 600px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .close-modal { position: absolute; top: 15px; left: 15px; font-size: 20px; color: var(--text-light); cursor: pointer; transition: var(--transition); }
+        .close-modal:hover { color: var(--danger-color); }
+        .modal-box h3 { color: var(--primary-color); margin-bottom: 15px; }
 
-        .login-card h2 {
-            color: var(--primary-color);
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 5px;
-        }
+        .roles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
+        .role-btn { background-color: #f8f9fa; border: 1px solid #e0e0e0; padding: 15px; border-radius: 10px; color: var(--primary-color); font-weight: 700; cursor: pointer; transition: var(--transition); display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; }
+        .role-btn i { font-size: 24px; color: var(--secondary-color); }
+        .role-btn:hover { background-color: var(--primary-color); color: #fff; border-color: var(--primary-color); transform: translateY(-3px); }
+        .role-btn:hover i { color: #fff; }
 
-        .login-card p {
-            color: var(--text-light);
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: right;
-            position: relative;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--primary-color);
-        }
-
-        .input-icon-wrapper {
-            position: relative;
-        }
-
-        .input-icon-wrapper i {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
-            font-size: 16px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 45px 12px 15px;
-            border: 1.5px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 14px;
-            outline: none;
-            transition: var(--transition);
-            text-align: right;
-        }
-
-        .form-group input:focus {
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(226, 177, 33, 0.15);
-        }
-
-        .btn-login {
-            width: 100%;
-            padding: 12px;
-            background-color: var(--primary-color);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 10px;
-            box-shadow: 0 4px 10px rgba(93, 64, 55, 0.2);
-        }
-
-        .btn-login:hover {
-            background-color: #4E342E;
-            transform: translateY(-2px);
-        }
-
-        .error-message {
-            color: var(--danger-color);
-            font-size: 13px;
-            font-weight: 600;
-            margin-top: 15px;
-            display: none;
-            background-color: #fde8e7;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid rgba(231, 76, 60, 0.2);
-        }
-
-        /* ------------------------------------- */
-        /* لوحة التحكم (Dashboard Screen) */
-        /* ------------------------------------- */
-        #dashboard-content {
-            display: none;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            background-color: var(--card-bg);
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.04);
-            border-bottom: 4px solid var(--secondary-color);
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .main-logo {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--secondary-color);
-            background-image: url('https://bondokpatisserie.com/wp-content/uploads/2023/09/%D9%84%D9%88%D8%AC%D9%88_%D8%A8%D9%86%D8%AF%D9%82-1.webp'); 
-            background-size: cover;
-            background-position: center;
-            background-color: #fff;
-        }
-
-        .header-title h1 {
-            font-size: 24px;
-            color: var(--primary-color);
-            font-weight: 800;
-        }
-
-        .header-title p {
-            font-size: 14px;
-            color: var(--text-light);
-        }
-
-        .logout-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
-            color: var(--danger-color);
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-size: 14px;
-            padding: 8px 15px;
-            border-radius: 8px;
-            transition: var(--transition);
-        }
-
-        .logout-btn:hover {
-            background-color: #fde8e7;
-        }
-
-        main {
-            flex: 1;
-            padding: 50px;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .section-header {
-            margin-bottom: 30px;
-        }
-
-        .section-header h2 {
-            font-size: 22px;
-            color: var(--primary-color);
-            position: relative;
-            padding-right: 15px;
-        }
-
-        .section-header h2::before {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 5px;
-            height: 80%;
-            width: 5px;
-            background-color: var(--secondary-color);
-            border-radius: 5px;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 15px;
-            padding: 30px 25px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-decoration: none;
-            display: block;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.01);
-        }
-
-        .card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 100%;
-            height: 4px;
-            background-color: var(--secondary-color);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
-        }
-
-        .card:hover::after {
-            transform: scaleX(1);
-        }
-
-        .card-icon {
-            width: 70px;
-            height: 70px;
-            background-color: rgba(226, 177, 33, 0.1);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 20px;
-            color: var(--primary-color);
-            font-size: 28px;
-            transition: var(--transition);
-        }
-
-        .card:hover .card-icon {
-            background-color: var(--secondary-color);
-            color: #fff;
-        }
-
-        .card h3 {
-            font-size: 20px;
-            color: var(--text-dark);
-            margin-bottom: 10px;
-        }
-
-        .card p {
-            font-size: 14px;
-            color: var(--text-light);
-            line-height: 1.6;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-light);
-            font-size: 14px;
-            background-color: var(--card-bg);
-            border-top: 1px solid #eee;
-        }
-
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-                padding: 20px;
-            }
-            main {
-                padding: 20px;
-            }
-        }
+        footer { text-align: center; padding: 20px; color: var(--text-light); font-size: 14px; background-color: var(--card-bg); border-top: 1px solid #eee; margin-top: auto; }
+        @media (max-width: 768px) { header { flex-direction: column; gap: 20px; text-align: center; padding: 20px; } main { padding: 20px; } }
     </style>
 </head>
 <body>
 
-    <div id="login-screen" class="login-wrapper">
+    <!-- شاشة التحميل -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <h3 style="color: var(--primary-color);">جاري الاتصال بقاعدة البيانات...</h3>
+    </div>
+
+    <!-- واجهة تسجيل الدخول -->
+    <div id="login-screen" class="login-wrapper" style="display: none;">
         <div class="login-card">
             <div class="login-logo"></div>
             <h2>حلواني بندق</h2>
             <p>لوحة التقييمات الإدارية المحمية</p>
-            
             <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="form-group">
                     <label for="username">اسم المستخدم</label>
-                    <div class="input-icon-wrapper">
-                        <i class="fa-solid fa-user-shield"></i>
-                        <input type="text" id="username" placeholder="أدخل اسم المستخدم" required autocomplete="off">
-                    </div>
+                    <div class="input-icon-wrapper"><i class="fa-solid fa-user-shield"></i><input type="text" id="username" placeholder="أدخل اسم المستخدم" required autocomplete="off"></div>
                 </div>
-                
                 <div class="form-group">
                     <label for="password">كلمة المرور</label>
-                    <div class="input-icon-wrapper">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
-                    </div>
+                    <div class="input-icon-wrapper"><i class="fa-solid fa-lock"></i><input type="password" id="password" placeholder="أدخل كلمة المرور" required></div>
                 </div>
-                
                 <button type="submit" class="btn-login">تسجيل الدخول</button>
                 <div id="error-msg" class="error-message"></div>
             </form>
         </div>
     </div>
 
+    <!-- محتوى لوحة التحكم -->
     <div id="dashboard-content">
         <header>
             <div class="logo-container">
                 <div class="main-logo"></div>
-                <div class="header-title">
-                    <h1>حلواني بندق</h1>
-                    <p>لوحة تحكم تقييمات الإدارة العليا</p>
-                </div>
+                <div class="header-title"><h1>حلواني بندق</h1><p>لوحة تحكم تقييمات الإدارة العليا</p></div>
             </div>
-            <button class="logout-btn" onclick="handleLogout()">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>خروج</span>
-            </button>
+            <button class="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i><span>خروج</span></button>
         </header>
 
         <main>
-            <div class="section-header">
-                <h2>نماذج التقييم والمتابعة للأقسام</h2>
+            <div class="section-header" style="margin-top: 0;"><h2>قسم الحسابات</h2></div>
+            <div class="dashboard-grid">
+                <a href="#" target="_blank" class="card" id="link-accounting">
+                    <div class="card-icon"><i class="fa-solid fa-calculator"></i></div>
+                    <h3>تقييم محاسب</h3>
+                    <p>تقييم الأداء المالي والمحاسبي والالتزام بالدورة المستندية.</p>
+                </a>
             </div>
 
+            <div class="section-header"><h2>نماذج التقييم والمتابعة للأقسام الأخرى</h2></div>
             <div class="dashboard-grid">
-                <a href="https://docs.google.com/forms/d/1xzxBEhRvueZ0BBN6-WelGTQCVsuobahwx13ozvJ_20o/edit" target="_blank" class="card">
+                <a href="#" target="_blank" class="card" id="link-cs">
                     <div class="card-icon"><i class="fa-solid fa-headset"></i></div>
                     <h3>قسم خدمة العملاء</h3>
-                    <p>تقييم أداء موظفي خدمة العملاء ومتابعة الشكاوى والاستفسارات.</p>
+                    <p>تقييم أداء موظفي خدمة العملاء ومتابعة الشكاوى.</p>
                 </a>
-
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfoWLNt4lNQGLBRI0UQGxm4LssF6LI2DznJxOxLImbw5BU15A/viewform?usp=publish-editor" target="_blank" class="card">
+                <a href="#" target="_blank" class="card" id="link-media">
                     <div class="card-icon"><i class="fa-solid fa-bullhorn"></i></div>
                     <h3>قسم الميديا والتسويق</h3>
-                    <p>تقييم صناع المحتوى، التصميمات، وجودة الحملات الإعلانية.</p>
+                    <p>تقييم صناع المحتوى وجودة الحملات الإعلانية.</p>
                 </a>
-
-                <a href="https://docs.google.com/forms/d/1JwypkIicQLc02a2mIFCJ96lkiw18wynQVODt0OmAPec/edit" target="_blank" class="card">
+                <a href="#" target="_blank" class="card" id="link-delivery">
                     <div class="card-icon"><i class="fa-solid fa-motorcycle"></i></div>
                     <h3>قطاع الدليفري</h3>
-                    <p>تقييم سرعة التوصيل، التزام الطيارين، وحالة الطلبات العامة.</p>
+                    <p>تقييم سرعة التوصيل والتزام الطيارين.</p>
                 </a>
+                <a href="#" target="_blank" class="card" id="link-feedback">
+                    <div class="card-icon"><i class="fa-solid fa-star"></i></div>
+                    <h3>تقييمات العملاء</h3>
+                    <p>استعراض آراء العملاء المباشرة حول الجودة.</p>
+                </a>
+            </div>
 
-  
+            <div class="section-header"><h2>تقييمات الفروع (للمديرين فقط)</h2></div>
+            <div class="dashboard-grid branches-grid" id="branches-container">
+                <!-- سيتم حقن الفروع هنا ديناميكياً من الشيت -->
             </div>
         </main>
+        <footer><p>&copy; 2026 جميع الحقوق محفوظة | إدارة حلواني بندق</p></footer>
+    </div>
 
-        <footer>
-            <p>&copy; 2026 جميع الحقوق محفوظة | إدارة حلواني بندق</p>
-        </footer>
+    <!-- نافذة الرقم السري للفرع -->
+    <div id="branch-modal" class="modal-overlay">
+        <div class="modal-box">
+            <i class="fa-solid fa-xmark close-modal" onclick="closeBranchModal()"></i>
+            <h3 id="modal-branch-title">اسم الفرع</h3>
+            <p style="color: var(--text-light); font-size: 13px; margin-bottom: 20px;">الرجاء إدخال الرقم السري الخاص بالفرع للوصول إلى التقييمات.</p>
+            <form id="branchForm" onsubmit="verifyBranchPassword(event)">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <div class="input-icon-wrapper"><i class="fa-solid fa-key"></i><input type="password" id="branch-password" placeholder="الرقم السري للفرع" required></div>
+                </div>
+                <button type="submit" class="btn-login" style="background-color: var(--secondary-color); color: #fff;">تحقق من الرمز</button>
+                <div id="branch-error-msg" class="error-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- نافذة تبويبات الموظفين -->
+    <div id="roles-modal" class="modal-overlay">
+        <div class="modal-box roles-modal-box">
+            <i class="fa-solid fa-xmark close-modal" onclick="closeRolesModal()"></i>
+            <h3 id="roles-branch-title">تقييمات موظفي الفرع</h3>
+            <p style="color: var(--text-light); font-size: 13px;">اختر المسمى الوظيفي للموظف المراد تقييمه</p>
+            <div class="roles-grid">
+                <a href="#" target="_blank" class="role-btn" id="role-manager"><i class="fa-solid fa-user-tie"></i> مدير فرع</a>
+                <a href="#" target="_blank" class="role-btn" id="role-assistant"><i class="fa-solid fa-user-gear"></i> مساعد فرع</a>
+                <a href="#" target="_blank" class="role-btn" id="role-supervisor"><i class="fa-solid fa-user-check"></i> مشرف فرع</a>
+                <a href="#" target="_blank" class="role-btn" id="role-receiver"><i class="fa-solid fa-headset"></i> متلقي</a>
+                <a href="#" target="_blank" class="role-btn" id="role-sales"><i class="fa-solid fa-handshake"></i> مندوب بيع</a>
+                <a href="#" target="_blank" class="role-btn" id="role-pilot"><i class="fa-solid fa-motorcycle"></i> الطيار</a>
+            </div>
+        </div>
     </div>
 
     <script>
-        window.onload = function() {
-            if (sessionStorage.getItem("isAdminLoggedIn") === "true") {
-                showDashboard();
+        // ==========================================
+        // 🔴 ضع الرابط الذي نسخته من Google Apps Script هنا
+        // ==========================================
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx7fjGJs2NXssFRAblaacNYdfoUFgWlMqeeAwu9ubrxBGbdCU0nAXDVLdbEGlcGde4E/exec";
+        
+        let branchesData = {};
+
+        // جلب البيانات من الشيت عند تحميل الصفحة
+        window.onload = async function() {
+            try {
+                const response = await fetch(WEB_APP_URL);
+                const data = await response.json();
+                
+                // 1. تعيين الروابط الرئيسية
+                if(data.mainLinks) {
+                    if(data.mainLinks.accounting) document.getElementById('link-accounting').href = data.mainLinks.accounting;
+                    if(data.mainLinks.cs) document.getElementById('link-cs').href = data.mainLinks.cs;
+                    if(data.mainLinks.media) document.getElementById('link-media').href = data.mainLinks.media;
+                    if(data.mainLinks.delivery) document.getElementById('link-delivery').href = data.mainLinks.delivery;
+                    if(data.mainLinks.feedback) document.getElementById('link-feedback').href = data.mainLinks.feedback;
+                }
+
+                // 2. تعيين بيانات الفروع ورسم الكروت ديناميكياً
+                branchesData = data.branchesData;
+                const branchesContainer = document.getElementById('branches-container');
+                branchesContainer.innerHTML = ''; // تفريغ الحاوية
+                
+                for (const branchId in branchesData) {
+                    const branch = branchesData[branchId];
+                    branchesContainer.innerHTML += `
+                        <div class="card" onclick="openBranchModal('${branchId}')">
+                            <div class="card-icon"><i class="fa-solid fa-shop"></i></div>
+                            <h3>${branch.name}</h3>
+                        </div>
+                    `;
+                }
+
+                // إخفاء شاشة التحميل وإظهار الشاشة المناسبة (الدخول أو الداش بورد)
+                document.getElementById('loading-overlay').style.display = 'none';
+                if (sessionStorage.getItem("isAdminLoggedIn") === "true") {
+                    document.getElementById("dashboard-content").style.display = "flex";
+                } else {
+                    document.getElementById("login-screen").style.display = "flex";
+                }
+
+            } catch (error) {
+                console.error("خطأ في جلب البيانات:", error);
+                document.getElementById('loading-overlay').innerHTML = '<h3 style="color:red;">حدث خطأ في الاتصال بقاعدة البيانات. تأكد من صحة الرابط.</h3>';
             }
         };
 
+        // --- إدارة تسجيل الدخول ---
         function handleLogin(event) {
             event.preventDefault();
-            
             const userInp = document.getElementById("username").value.trim();
             const passInp = document.getElementById("password").value.trim();
             const errorDiv = document.getElementById("error-msg");
@@ -444,21 +271,67 @@
             if (userInp === "admin" && passInp === "54321") {
                 sessionStorage.setItem("isAdminLoggedIn", "true");
                 errorDiv.style.display = "none";
-                showDashboard();
+                document.getElementById("login-screen").style.display = "none";
+                document.getElementById("dashboard-content").style.display = "flex";
             } else {
                 errorDiv.style.display = "block";
-                errorDiv.innerText = "خطأ في اسم المستخدم أو كلمة المرور. يرجى المحاولة مرة أخرى.";
+                errorDiv.innerText = "خطأ في اسم المستخدم أو كلمة المرور.";
             }
-        }
-
-        function showDashboard() {
-            document.getElementById("login-screen").style.display = "none";
-            document.getElementById("dashboard-content").style.display = "flex";
         }
 
         function handleLogout() {
             sessionStorage.removeItem("isAdminLoggedIn");
             window.location.reload(); 
+        }
+
+        // --- إدارة الفروع ---
+        let currentSelectedBranch = null;
+
+        function openBranchModal(branchId) {
+            currentSelectedBranch = branchId;
+            document.getElementById('modal-branch-title').innerText = branchesData[branchId].name;
+            document.getElementById('branch-password').value = '';
+            document.getElementById('branch-error-msg').style.display = 'none';
+            document.getElementById('branch-modal').style.display = 'flex';
+        }
+
+        function closeBranchModal() {
+            document.getElementById('branch-modal').style.display = 'none';
+        }
+
+        function verifyBranchPassword(event) {
+            event.preventDefault();
+            const enteredPass = document.getElementById('branch-password').value.trim();
+            const branchErrorDiv = document.getElementById('branch-error-msg');
+            const correctPass = branchesData[currentSelectedBranch].password;
+
+            if (enteredPass === correctPass) {
+                branchErrorDiv.style.display = 'none';
+                closeBranchModal();
+                openRolesModal(currentSelectedBranch);
+            } else {
+                branchErrorDiv.style.display = 'block';
+                branchErrorDiv.innerText = "الرقم السري غير صحيح، يرجى المحاولة مرة أخرى.";
+            }
+        }
+
+        function openRolesModal(branchId) {
+            const branchInfo = branchesData[branchId];
+            document.getElementById('roles-branch-title').innerText = "تقييمات موظفي " + branchInfo.name;
+            
+            document.getElementById('role-manager').href = branchInfo.links.manager;
+            document.getElementById('role-assistant').href = branchInfo.links.assistant;
+            document.getElementById('role-supervisor').href = branchInfo.links.supervisor;
+            document.getElementById('role-receiver').href = branchInfo.links.receiver;
+            document.getElementById('role-sales').href = branchInfo.links.sales;
+            document.getElementById('role-pilot').href = branchInfo.links.pilot;
+
+            document.getElementById('roles-modal').style.display = 'flex';
+        }
+
+        function closeRolesModal() {
+            document.getElementById('roles-modal').style.display = 'none';
+            currentSelectedBranch = null;
         }
     </script>
 </body>
