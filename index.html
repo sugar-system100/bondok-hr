@@ -1,462 +1,302 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-  <title>حلواني بندق Pro Fix | طباعة ملصقات مرنة | XPrinter Continuous Roll Fix</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <style>
-    * {
-      font-family: 'Cairo', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      box-sizing: border-box;
-    }
-    
-    body {
-      background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1rem;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة التقييمات الإدارية | حلواني بندق</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #5D4037; 
+            --secondary-color: #E2B121; 
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --danger-color: #e74c3c;
+            --shadow: 0 10px 25px rgba(0,0,0,0.06);
+            --transition: all 0.3s ease;
+        }
 
-    .glass-panel {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(217, 119, 6, 0.2);
-      box-shadow: 0 25px 50px -12px rgba(180, 120, 30, 0.15);
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-dark); min-height: 100vh; }
 
-    .printer-setup-panel, .product-data-panel {
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(229, 231, 235, 1);
-      border-radius: 1.5rem;
-    }
+        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--card-bg); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .spinner { width: 50px; height: 50px; border: 5px solid rgba(226, 177, 33, 0.3); border-top: 5px solid var(--secondary-color); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* معاينة الستيكر داخل واجهة الاستخدام (ستكون أفقية) */
-    .thermal-paper-preview {
-      background-color: #fffdf5;
-      background-image: 
-        radial-gradient(circle at 15% 15%, rgba(217, 119, 6, 0.05) 1px, transparent 1px),
-        radial-gradient(circle at 85% 85%, rgba(217, 119, 6, 0.03) 1px, transparent 1px);
-      background-size: 10px 10px;
-      border: 2px dashed rgba(217, 119, 6, 0.4);
-      border-radius: 20px;
-      transition: all 0.3s ease;
-      position: relative;
-    }
+        .login-wrapper { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; background: linear-gradient(135deg, #5D4037 0%, #3E2723 100%); }
+        .login-card { background-color: var(--card-bg); border-radius: 20px; width: 100%; max-width: 420px; padding: 40px 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; border-top: 5px solid var(--secondary-color); }
+        .login-logo { width: 90px; height: 90px; border-radius: 50%; margin-bottom: 20px; border: 3px solid var(--secondary-color); background-image: url('https://bondokpatisserie.com/wp-content/uploads/2023/09/%D9%84%D9%88%D8%AC%D9%88_%D8%A8%D9%86%D8%AF%D9%82-1.webp'); background-size: cover; background-position: center; display: inline-block; background-color: #fff; }
+        .login-card h2 { color: var(--primary-color); font-size: 22px; font-weight: 800; margin-bottom: 5px; }
+        .login-card p { color: var(--text-light); font-size: 14px; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; text-align: right; position: relative; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--primary-color); }
+        .input-icon-wrapper { position: relative; }
+        .input-icon-wrapper i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-light); font-size: 16px; }
+        .form-group input { width: 100%; padding: 12px 45px 12px 15px; border: 1.5px solid #e0e0e0; border-radius: 10px; font-size: 14px; outline: none; transition: var(--transition); text-align: right; }
+        .form-group input:focus { border-color: var(--secondary-color); box-shadow: 0 0 0 3px rgba(226, 177, 33, 0.15); }
+        .btn-login { width: 100%; padding: 12px; background-color: var(--primary-color); color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: var(--transition); margin-top: 10px; box-shadow: 0 4px 10px rgba(93, 64, 55, 0.2); }
+        .btn-login:hover { background-color: #4E342E; transform: translateY(-2px); }
+        .error-message { color: var(--danger-color); font-size: 13px; font-weight: 600; margin-top: 15px; display: none; background-color: #fde8e7; padding: 10px; border-radius: 8px; border: 1px solid rgba(231, 76, 60, 0.2); }
 
-    .sticker-container-mock {
-      background: white;
-      border: 1px solid #e2d1c3;
-      border-radius: 10px;
-      padding: 5px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      overflow: hidden;
-      direction: rtl;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fadeIn { animation: fadeIn 0.3s ease-out; }
-
-    .btn-action {
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-    }
-    .btn-action:hover {
-      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.5);
-      transform: translateY(-1px);
-    }
-    .btn-action:active { transform: scale(0.97); }
-
-    input[type="number"], input[type="text"] {
-      background: rgba(255,255,255,0.8);
-      border-color: #e2d1c3;
-    }
-    input:focus { ring: 2px; ring-color: #f59e0b; border-color: #f59e0b; }
-
-    /* === ستايلات الطباعة الديناميكية (الطريقة الأضمن لبكرات XPrinter) === */
-    @media print {
-      html, body {
-        margin: 0 !important;
-        padding: 0 !important;
-        /* نحن نحدد العرض الثابت لرول الورق */
-        width: 30mm !important;
-        height: 25mm !important;
-        overflow: hidden !important;
-        font-family: 'Cairo', sans-serif !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-      
-      body * {
-        visibility: hidden !important;
-      }
-      
-      @page {
-        size: 30mm 25mm portrait !important; /* نحدد اتجاه طولي standard للرول */
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-      
-      #thermal-print-output, 
-      #thermal-print-output * {
-        visibility: visible !important;
-      }
-      
-      #thermal-print-output {
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 30mm !important; /* عرض الورقة المدخلة */
-        height: 25mm !important; /* طول القطعة المغذاة */
-        margin: 0 !important;
-        padding: 0 !important;
-        background: white !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        overflow: hidden !important;
-        direction: rtl !important;
-        box-sizing: border-box !important;
-      }
-      
-      /* عنصر الملصق المدور (سيكون أفقيًا بالنسبة لقارئ الرول) */
-      .print-sticker-single {
-        /* تدوير الملصق 90 درجة عكس اتجاه عقارب الساعة لتناسب بكرة الورق */
-        transform: rotate(-90deg);
-        /* تبديل الأبعاد لتناسب التصميم الأفقي بعد التدوير */
-        width: 25mm !important; /* عرض التصميم الأفقي */
-        height: 30mm !important; /* ارتفاع التصميم الأفقي */
+        #dashboard-content { display: none; flex-direction: column; min-height: 100vh; }
+        header { background-color: var(--card-bg); padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 15px rgba(0,0,0,0.04); border-bottom: 4px solid var(--secondary-color); }
+        .logo-container { display: flex; align-items: center; gap: 15px; }
+        .main-logo { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--secondary-color); background-image: url('https://bondokpatisserie.com/wp-content/uploads/2023/09/%D9%84%D9%88%D8%AC%D9%88_%D8%A8%D9%86%D8%AF%D9%82-1.webp'); background-size: cover; background-position: center; background-color: #fff; }
+        .header-title h1 { font-size: 24px; color: var(--primary-color); font-weight: 800; }
+        .header-title p { font-size: 14px; color: var(--text-light); }
+        .logout-btn { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--danger-color); cursor: pointer; background: none; border: none; font-size: 14px; padding: 8px 15px; border-radius: 8px; transition: var(--transition); }
+        .logout-btn:hover { background-color: #fde8e7; }
+        main { flex: 1; padding: 50px; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .section-header { margin-bottom: 30px; margin-top: 40px; }
+        .section-header h2 { font-size: 22px; color: var(--primary-color); position: relative; padding-right: 15px; }
+        .section-header h2::before { content: ''; position: absolute; right: 0; top: 5px; height: 80%; width: 5px; background-color: var(--secondary-color); border-radius: 5px; }
         
-        display: flex !important;
-        flex-direction: row !important; /* صف RTL أفقي */
-        align-items: center !important;
-        justify-content: space-between !important;
-        padding: 1mm 1.5mm !important;
-        background: white !important;
-        page-break-inside: avoid !important;
-        box-sizing: border-box !important;
-        border: 0.5mm solid black !important;
-        border-radius: 1mm !important;
-        gap: 1.5mm !important;
-      }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
+        .branches-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+        
+        .card { background-color: var(--card-bg); border-radius: 15px; padding: 30px 25px; text-align: center; box-shadow: var(--shadow); transition: var(--transition); text-decoration: none; display: block; position: relative; overflow: hidden; border: 1px solid rgba(0,0,0,0.01); cursor: pointer; }
+        .card::after { content: ''; position: absolute; bottom: 0; right: 0; width: 100%; height: 4px; background-color: var(--secondary-color); transform: scaleX(0); transform-origin: right; transition: var(--transition); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+        .card:hover::after { transform: scaleX(1); }
+        .card-icon { width: 70px; height: 70px; background-color: rgba(226, 177, 33, 0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 20px; color: var(--primary-color); font-size: 28px; transition: var(--transition); }
+        .card:hover .card-icon { background-color: var(--secondary-color); color: #fff; }
+        .card h3 { font-size: 20px; color: var(--text-dark); margin-bottom: 10px; }
 
-      /* تنسيق المحتوى داخل الملصق المدور */
-      .print-text-section {
-        flex: 1 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
-        h-full !important;
-        text-right !important;
-        overflow: hidden !important;
-        gap: 0.5mm !important;
-      }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .modal-box { background-color: var(--card-bg); padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; animation: fadeIn 0.3s ease; }
+        .roles-modal-box { max-width: 600px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .close-modal { position: absolute; top: 15px; left: 15px; font-size: 20px; color: var(--text-light); cursor: pointer; transition: var(--transition); }
+        .close-modal:hover { color: var(--danger-color); }
+        .modal-box h3 { color: var(--primary-color); margin-bottom: 15px; }
 
-      .print-product-name {
-        font-weight: 900 !important;
-        color: black !important;
-        line-height: 1.1 !important;
-        white-space: nowrap !important;
-        text-align: right !important;
-        font-size: 11pt !important;
-      }
+        .roles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
+        .role-btn { background-color: #f8f9fa; border: 1px solid #e0e0e0; padding: 15px; border-radius: 10px; color: var(--primary-color); font-weight: 700; cursor: pointer; transition: var(--transition); display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; }
+        .role-btn i { font-size: 24px; color: var(--secondary-color); }
+        .role-btn:hover { background-color: var(--primary-color); color: #fff; border-color: var(--primary-color); transform: translateY(-3px); }
+        .role-btn:hover i { color: #fff; }
 
-      .print-product-weight {
-        font-weight: 700 !important;
-        color: black !important;
-        text-align: right !important;
-        font-size: 7.5pt !important;
-      }
-
-      .print-footer-text {
-        font-weight: 600 !important;
-        color: black !important;
-        line-height: 1 !important;
-        text-align: right !important;
-        font-size: 6pt !important;
-      }
-
-      .print-price-box {
-        border: 1.5px solid black !important;
-        border-radius: 1mm !important;
-        w-[32%] !important;
-        py-1.5 !important;
-        text-center !important;
-        bg-white !important;
-        flex-shrink: 0 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        h-full !important;
-        overflow: hidden !important;
-      }
-
-      .print-price-text {
-        font-black !important;
-        line-none !important;
-        text-black !important;
-        font-size: 16pt !important;
-      }
-      
-      .print-currency-text {
-        font-size: 7pt !important;
-        font-black !important;
-        text-gray-800 !important;
-      }
-    }
-  </style>
+        footer { text-align: center; padding: 20px; color: var(--text-light); font-size: 14px; background-color: var(--card-bg); border-top: 1px solid #eee; margin-top: auto; }
+        @media (max-width: 768px) { header { flex-direction: column; gap: 20px; text-align: center; padding: 20px; } main { padding: 20px; } }
+    </style>
 </head>
 <body>
 
-  <div class="w-full max-w-6xl glass-panel rounded-3xl overflow-hidden animate-fadeIn mb-10">
-    
-    <div class="bg-gradient-to-l from-amber-600 to-amber-700 px-6 py-5 flex items-center justify-between border-b border-amber-800/30 shadow-lg">
-      <div class="flex items-center gap-4">
-        <div class="bg-white/10 backdrop-blur-sm p-3 rounded-2xl border border-white/20">
-          <i class="fas fa-tag text-white text-3xl"></i>
-        </div>
-        <div>
-          <h1 class="text-2xl md:text-3xl font-black text-white tracking-tight">حلواني بندق Pro Fix</h1>
-          <p class="text-amber-100 text-xs font-semibold opacity-90">نظام طباعة ملصقات الأسعار المرن | XPrinter Continuous Roll Fix</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-2">
-          <span class="bg-amber-900/40 text-amber-100 text-xs font-bold px-4 py-2 rounded-full border border-amber-500/30">
-            <i class="fas fa-print mr-1"></i> XPrinter Continuous Roll
-          </span>
-      </div>
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <h3 style="color: var(--primary-color);">جاري الاتصال بقاعدة البيانات...</h3>
     </div>
 
-    <div class="flex flex-col lg:flex-row">
-      
-      <div class="w-full lg:w-[50%] p-5 md:p-6 space-y-6 border-b lg:border-b-0 lg:border-l border-amber-200/50">
-        
-        <div class="printer-setup-panel p-5">
-          <div class="flex items-center gap-2.5 mb-4 text-amber-800">
-            <i class="fas fa-drafting-compass text-lg"></i>
-            <h3 class="font-black text-sm">📐 إعدادات المقاس الفعلي لبكرة الورق</h3>
-          </div>
-          <div class="grid grid-cols-2 gap-4 mb-4">
-            <div>
-              <label class="text-[11px] font-bold text-gray-600 mb-1 block">📏 عرض البكرة الفعلي (ملم)</label>
-              <input type="number" id="stickerWidth" value="30" min="15" max="100" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-center font-black text-gray-800 text-sm focus:ring-amber-500">
-            </div>
-            <div>
-              <label class="text-[11px] font-bold text-gray-600 mb-1 block">📏 ارتفاع التغذية الفعلي (ملم)</label>
-              <input type="number" id="stickerHeight" value="25" min="15" max="100" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-center font-black text-gray-800 text-sm focus:ring-amber-500">
-            </div>
-          </div>
-          <div class="text-[10px] text-gray-400 text-center bg-white border border-amber-100 p-3 rounded-xl shadow-inner font-semibold mt-4">
-            💡 سيتم تثبيت اتجاه الطباعة برمجياً ليناسب بكرة الورق الطولية (30 عرض × 25 تغذية). سيتم تدوير المحتوى داخلياً عكس اتجاه عقارب الساعة لتجربة أفقية صحيحة.
-          </div>
+    <!-- واجهة تسجيل الدخول -->
+    <div id="login-screen" class="login-wrapper" style="display: none;">
+        <div class="login-card">
+            <div class="login-logo"></div>
+            <h2>حلواني بندق</h2>
+            <p>لوحة التقييمات الإدارية المحمية</p>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">اسم المستخدم</label>
+                    <div class="input-icon-wrapper"><i class="fa-solid fa-user-shield"></i><input type="text" id="username" placeholder="أدخل اسم المستخدم" required autocomplete="off"></div>
+                </div>
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <div class="input-icon-wrapper"><i class="fa-solid fa-lock"></i><input type="password" id="password" placeholder="أدخل كلمة المرور" required></div>
+                </div>
+                <button type="submit" class="btn-login">تسجيل الدخول</button>
+                <div id="error-msg" class="error-message"></div>
+            </form>
         </div>
-
-        <div class="product-data-panel p-5">
-          <div class="flex items-center gap-2.5 mb-4 text-amber-800">
-            <i class="fas fa-edit text-lg"></i>
-            <h3 class="font-black text-sm">🏷️ بيانات المنتج</h3>
-          </div>
-          <div class="space-y-3.5">
-            <div>
-              <label class="text-[11px] font-bold text-gray-600 mb-1 block">اسم المنتج</label>
-              <input type="text" id="productName" value="قرقش بالعجوة" class="w-full border border-gray-300 rounded-xl px-3.5 py-2.5 text-sm font-bold focus:ring-amber-500 bg-white">
-            </div>
-            <div>
-              <label class="text-[11px] font-bold text-gray-600 mb-1 block">⚖️ وزن المنتج</label>
-              <input type="text" id="productWeight" value="500 جرام" class="w-full border border-gray-300 rounded-xl px-3.5 py-2.5 text-sm font-bold text-amber-900 focus:ring-amber-500 bg-white" placeholder="مثال: 1 كجم أو 500 جرام">
-            </div>
-            <div>
-              <label class="text-[11px] font-bold text-gray-600 mb-1 block">السعر (ج.م)</label>
-              <input type="number" id="productPrice" value="145" class="w-full border border-gray-300 rounded-xl px-3.5 py-3 text-center font-black text-2xl text-amber-700 focus:ring-amber-500 bg-white shadow-inner">
-            </div>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3.5">
-          <button id="printBtn" class="btn-action bg-gradient-to-br from-amber-500 to-amber-600 text-white font-extrabold py-4 rounded-xl flex items-center justify-center gap-2.5 text-sm border-b-4 border-amber-700">
-            <i class="fas fa-print text-lg"></i> طباعة الآن (Ctrl+P)
-          </button>
-          <button id="previewBtn" class="bg-white border-2 border-amber-400 text-amber-700 font-extrabold py-4 rounded-xl flex items-center justify-center gap-2.5 hover:bg-amber-50 text-sm">
-            <i class="fas fa-eye text-lg"></i> تحديث المعاينة الأفقية
-          </button>
-        </div>
-      </div>
-
-      <div class="w-full lg:w-[50%] p-5 md:p-6 flex flex-col items-center bg-gradient-to-br from-amber-50/70 to-white">
-        <div class="thermal-paper-preview p-5 w-full flex flex-col items-center h-full min-h-[400px]">
-          <div class="text-center mb-6 w-full flex items-center justify-center gap-2">
-            <i class="fas fa-mobile-alt text-amber-600"></i>
-            <span id="previewTitle" class="bg-amber-100 text-amber-900 text-[11px] font-black px-4 py-2 rounded-full inline-flex border border-amber-200">معاينة استيكر 30×25 ملم</span>
-          </div>
-          
-          <div id="previewContainerMock" class="sticker-container-mock flex items-center">
-            <div class="w-full h-full p-1.5 flex flex-row items-center justify-between gap-1.5 border border-amber-200/50 rounded-md bg-white">
-              
-              <div class="flex-1 flex flex-col justify-between h-full text-right overflow-hidden gap-1">
-                <div id="mockProductName" class="font-black text-gray-900 leading-tight" style="font-size: 13px;">قرقش بالعجوة</div>
-                <div id="mockProductWeight" class="font-semibold text-amber-900 bg-amber-50 px-2 py-0.5 rounded-sm inline-block self-start" style="font-size: 9px; line-height: 1.1;">500 جرام</div>
-                <div class="font-bold text-gray-500 truncate" style="font-size: 8px; line-height: 1.1;">حلواني بندق - فرع النزهة</div>
-              </div>
-              
-              <div class="border-2 border-gray-900 rounded-lg w-[32%] py-2 text-center bg-white shadow flex-shrink-0 flex flex-col items-center justify-center h-full">
-                <span id="mockProductPrice" class="font-black text-lg block leading-none text-black">145</span>
-                <span class="text-[8px] font-black block -mt-0.5 text-gray-800">ج.م</span>
-              </div>
-              
-            </div>
-          </div>
-          
-          <div class="mt-auto text-center space-y-1 w-full pt-6">
-            <p id="sizeStatus" class="text-[11px] text-gray-600 font-bold">📐 المقاس النشط لبكرة الورق: 30 × 25 ملم (طولي)</p>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <div id="thermal-print-output" style="display: none; visibility: hidden;">
-    <div class="print-sticker-single">
-      <div class="print-text-section">
-        <div id="printProductName" class="print-product-name">قرقش بالعجوة</div>
-        <div id="printProductWeight" class="print-product-weight">الوزن صافي: 500 جرام</div>
-        <div class="print-footer-text">حلواني بندق - فرع النزهة</div>
-      </div>
-      
-      <div class="print-price-box">
-        <span id="printProductPrice" class="print-price-text">145</span>
-        <span class="print-currency-text">ج.م</span>
-      </div>
+    <!-- لوحة التحكم -->
+    <div id="dashboard-content">
+        <header>
+            <div class="logo-container">
+                <div class="main-logo"></div>
+                <div class="header-title"><h1>حلواني بندق</h1><p>لوحة تحكم تقييمات الإدارة العليا</p></div>
+            </div>
+            <button class="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i><span>خروج</span></button>
+        </header>
+
+        <main>
+            <!-- الأقسام الرئيسية الديناميكية -->
+            <div class="section-header" style="margin-top: 0;"><h2>إدارة الأقسام الرئيسية</h2></div>
+            <div class="dashboard-grid" id="departments-container"></div>
+
+            <!-- الفروع الديناميكية -->
+            <div class="section-header"><h2>إدارة وتقييمات الفروع</h2></div>
+            <div class="dashboard-grid branches-grid" id="branches-container"></div>
+        </main>
+        <footer><p>&copy; 2026 جميع الحقوق محفوظة | إدارة حلواني بندق</p></footer>
     </div>
-  </div>
 
-  <div class="text-center text-[11px] text-gray-400 py-3 mt-auto max-w-6xl w-full">
-    © حلواني بندق Pro Fix | م/ محمود سلامه | Continuous Roll XPrinter Fix
-  </div>
+    <!-- نافذة طلب الرقم السري الموحدة -->
+    <div id="auth-modal" class="modal-overlay">
+        <div class="modal-box">
+            <i class="fa-solid fa-xmark close-modal" onclick="closeAuthModal()"></i>
+            <h3 id="auth-title">اسم القسم/الفرع</h3>
+            <p style="color: var(--text-light); font-size: 13px; margin-bottom: 20px;">الرجاء إدخال الرقم السري للوصول إلى النماذج.</p>
+            <form onsubmit="verifyPassword(event)">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <div class="input-icon-wrapper"><i class="fa-solid fa-key"></i><input type="password" id="auth-password" placeholder="الرقم السري" required></div>
+                </div>
+                <button type="submit" class="btn-login" style="background-color: var(--secondary-color); color: #fff;">تحقق من الرمز</button>
+                <div id="auth-error-msg" class="error-message"></div>
+            </form>
+        </div>
+    </div>
 
-  <script>
-    (function() {
-      // DOM Elements
-      const widthInput = document.getElementById('stickerWidth');
-      const heightInput = document.getElementById('stickerHeight');
-      const pNameInput = document.getElementById('productName');
-      const pWeightInput = document.getElementById('productWeight');
-      const pPriceInput = document.getElementById('productPrice');
-      
-      // Preview Elements
-      const previewContainer = document.getElementById('previewContainerMock');
-      const previewTitle = document.getElementById('previewTitle');
-      const sizeStatus = document.getElementById('sizeStatus');
-      const mockName = document.getElementById('mockProductName');
-      const mockWeight = document.getElementById('mockProductWeight');
-      const mockPrice = document.getElementById('mockProductPrice');
-      
-      // Print Output Elements
-      const printName = document.getElementById('printProductName');
-      const printWeight = document.getElementById('printProductWeight');
-      const printPrice = document.getElementById('printProductPrice');
+    <!-- نافذة التبويبات والوظائف الموحدة -->
+    <div id="roles-modal" class="modal-overlay">
+        <div class="modal-box roles-modal-box">
+            <i class="fa-solid fa-xmark close-modal" onclick="closeRolesModal()"></i>
+            <h3 id="roles-title">نماذج التقييم</h3>
+            <p style="color: var(--text-light); font-size: 13px;">اختر النموذج أو المسمى الوظيفي المطلوب</p>
+            <div class="roles-grid" id="roles-container"></div>
+        </div>
+    </div>
 
-      // Update All Displays
-      function refreshAll() {
-        // البيانات النصية
-        const nameVal = pNameInput.value.trim() || 'منتج جديد';
-        const weightVal = pWeightInput.value.trim();
-        const priceVal = pPriceInput.value.trim() || '0';
+    <script>
+        // ==========================================
+        // 🔴 ضع الرابط هنا
+        // ==========================================
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwAzhnV6GPeMr11CRcKmyBe8Qjo_rE0PSiFO6I02B2ZoJDSO-yi9CeyFzyeRwrHAOJU/exec";
         
-        // مقاسات البكرة الفعلي (للمعاينة فقط)
-        let wVal = parseInt(widthInput.value) || 30;
-        let hVal = parseInt(heightInput.value) || 25;
-        
-        // --- 1. تحديث المعاينة الأفقية داخل الصفحة (Mock) ---
-        mockName.textContent = nameVal;
-        mockPrice.textContent = priceVal;
-        
-        // معالجة الوزن (إخفاء العنصر إذا كان فارغاً)
-        if(weightVal) {
-          mockWeight.textContent = "⚖️ الوزن: " + weightVal;
-          mockWeight.style.display = 'inline-block';
-        } else {
-          mockWeight.style.display = 'none';
+        let sysData = { departments: {}, branches: {} };
+        let currentAuthType = null;
+        let currentAuthId = null;
+
+        // ثوابت أيقونات وظائف الفروع
+        const branchRolesConfig = {
+            manager: { name: "مدير فرع", icon: "fa-user-tie" },
+            assistant: { name: "مساعد فرع", icon: "fa-user-gear" },
+            supervisor: { name: "مشرف فرع", icon: "fa-user-check" },
+            receiver: { name: "متلقي", icon: "fa-headset" },
+            sales: { name: "مندوب بيع", icon: "fa-handshake" },
+            pilot: { name: "الطيار", icon: "fa-motorcycle" }
+        };
+
+        window.onload = async function() {
+            try {
+                const response = await fetch(WEB_APP_URL);
+                sysData = await response.json();
+                
+                // رسم الأقسام الرئيسية
+                const deptsContainer = document.getElementById('departments-container');
+                deptsContainer.innerHTML = '';
+                for (const id in sysData.departments) {
+                    const dept = sysData.departments[id];
+                    deptsContainer.innerHTML += `
+                        <div class="card" onclick="openAuthModal('dept', '${id}')">
+                            <div class="card-icon"><i class="fa-solid ${dept.icon}"></i></div>
+                            <h3>${dept.name}</h3>
+                        </div>`;
+                }
+
+                // رسم الفروع
+                const branchesContainer = document.getElementById('branches-container');
+                branchesContainer.innerHTML = '';
+                for (const id in sysData.branches) {
+                    const branch = sysData.branches[id];
+                    branchesContainer.innerHTML += `
+                        <div class="card" onclick="openAuthModal('branch', '${id}')">
+                            <div class="card-icon"><i class="fa-solid fa-shop"></i></div>
+                            <h3>${branch.name}</h3>
+                        </div>`;
+                }
+
+                document.getElementById('loading-overlay').style.display = 'none';
+                if (sessionStorage.getItem("isAdminLoggedIn") === "true") {
+                    document.getElementById("dashboard-content").style.display = "flex";
+                } else {
+                    document.getElementById("login-screen").style.display = "flex";
+                }
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById('loading-overlay').innerHTML = '<h3 style="color:red;">تأكد من وضع رابط الـ Web App الصحيح.</h3>';
+            }
+        };
+
+        function handleLogin(event) {
+            event.preventDefault();
+            if (document.getElementById("username").value.trim() === "admin" && document.getElementById("password").value.trim() === "54321") {
+                sessionStorage.setItem("isAdminLoggedIn", "true");
+                document.getElementById("error-msg").style.display = "none";
+                document.getElementById("login-screen").style.display = "none";
+                document.getElementById("dashboard-content").style.display = "flex";
+            } else {
+                document.getElementById("error-msg").style.display = "block";
+                document.getElementById("error-msg").innerText = "بيانات الدخول غير صحيحة.";
+            }
         }
 
-        // تحديث مقاس المعاينة الأفقية (30 عرض × 25 ارتفاع)
-        previewContainer.style.width = (wVal * 3) + 'px';
-        previewContainer.style.height = (hVal * 3) + 'px';
-        
-        previewTitle.textContent = `معاينة استيكر ${wVal}×${hVal} ملم (أفقي)`;
-        sizeStatus.textContent = `📐 المقاس النشط لبكرة الورق: ${wVal} × ${hVal} ملم (طولي)`;
-
-        // --- 2. تحديث مخرجات الطباعة المخفية ---
-        printName.textContent = nameVal;
-        printPrice.textContent = priceVal;
-        if(weightVal) {
-          printWeight.textContent = "الوزن صافي: " + weightVal;
-          printWeight.style.display = 'block';
-        } else {
-          printWeight.style.display = 'none';
+        function handleLogout() {
+            sessionStorage.removeItem("isAdminLoggedIn");
+            window.location.reload(); 
         }
-      }
 
-      function executePrint() {
-        refreshAll();
-        
-        // إظهار منطقة الطباعة المخفية
-        const printOutput = document.getElementById('thermal-print-output');
-        printOutput.style.display = 'flex';
-        printOutput.style.visibility = 'visible';
-        printOutput.style.position = 'absolute';
-        printOutput.style.top = '0';
-        printOutput.style.left = '0';
-        printOutput.style.width = '30mm';
-        printOutput.style.height = '25mm';
-        printOutput.style.alignItems = 'center';
-        printOutput.style.justify = 'center';
-        printOutput.style.flexDirection = 'row'; 
-        
-        setTimeout(() => {
-          window.print(); // فتح نافذة الطباعة
-          setTimeout(() => {
-            // إخفاء منطقة الطباعة بعد الإرسال
-            printOutput.style.display = 'none';
-            printOutput.style.visibility = 'hidden';
-          }, 500);
-        }, 100);
-      }
-
-      // Event Listeners
-      pNameInput.addEventListener('input', refreshAll);
-      pWeightInput.addEventListener('input', refreshAll);
-      pPriceInput.addEventListener('input', refreshAll);
-      widthInput.addEventListener('input', refreshAll);
-      heightInput.addEventListener('input', refreshAll);
-      
-      document.getElementById('previewBtn').addEventListener('click', refreshAll);
-      document.getElementById('printBtn').addEventListener('click', executePrint);
-      
-      // Ctrl+P shortcut
-      document.addEventListener('keydown', (e) => {
-        if (e.ctrlKey && e.key === 'p') {
-          e.preventDefault();
-          executePrint();
+        // --- إدارة النوافذ والأرقام السرية ---
+        function openAuthModal(type, id) {
+            currentAuthType = type;
+            currentAuthId = id;
+            const targetData = type === 'dept' ? sysData.departments[id] : sysData.branches[id];
+            
+            document.getElementById('auth-title').innerText = targetData.name;
+            document.getElementById('auth-password').value = '';
+            document.getElementById('auth-error-msg').style.display = 'none';
+            document.getElementById('auth-modal').style.display = 'flex';
         }
-      });
-      
-      // Initialize
-      refreshAll();
-    })();
-  </script>
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').style.display = 'none';
+        }
+
+        function verifyPassword(event) {
+            event.preventDefault();
+            const enteredPass = document.getElementById('auth-password').value.trim();
+            const errorDiv = document.getElementById('auth-error-msg');
+            const targetData = currentAuthType === 'dept' ? sysData.departments[currentAuthId] : sysData.branches[currentAuthId];
+
+            if (enteredPass === targetData.password) {
+                errorDiv.style.display = 'none';
+                closeAuthModal();
+                openRolesModal();
+            } else {
+                errorDiv.style.display = 'block';
+                errorDiv.innerText = "الرقم السري غير صحيح.";
+            }
+        }
+
+        function openRolesModal() {
+            const container = document.getElementById('roles-container');
+            container.innerHTML = '';
+
+            if (currentAuthType === 'dept') {
+                const dept = sysData.departments[currentAuthId];
+                document.getElementById('roles-title').innerText = "نماذج: " + dept.name;
+                dept.roles.forEach(role => {
+                    container.innerHTML += `<a href="${role.link}" target="_blank" class="role-btn"><i class="fa-solid fa-file-signature"></i> ${role.name}</a>`;
+                });
+            } else {
+                const branch = sysData.branches[currentAuthId];
+                document.getElementById('roles-title').innerText = "تقييمات موظفي: " + branch.name;
+                for (const roleKey in branchRolesConfig) {
+                    const roleConfig = branchRolesConfig[roleKey];
+                    const roleLink = branch.links[roleKey];
+                    container.innerHTML += `<a href="${roleLink}" target="_blank" class="role-btn"><i class="fa-solid ${roleConfig.icon}"></i> ${roleConfig.name}</a>`;
+                }
+            }
+
+            document.getElementById('roles-modal').style.display = 'flex';
+        }
+
+        function closeRolesModal() {
+            document.getElementById('roles-modal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
